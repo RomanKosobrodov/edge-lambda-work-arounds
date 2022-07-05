@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "edge-lambda-pass-resources"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1flasdk478ykv0"
+s3_prefix = "edge-lambda-pass-resources"
+region = "us-east-1"
+profile = "sam"
+capabilities = "CAPABILITY_IAM CAPABILITY_NAMED_IAM"
+image_repositories = []
