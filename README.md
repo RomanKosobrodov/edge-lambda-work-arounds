@@ -68,5 +68,5 @@ You are going to get an error message regarding deleting replicated Lambda@Edge 
 
 ## Resources
 
-A detailed discussion of the project can be found in the accompanying [post](blog.kosobrodov.net).
+A detailed discussion of the project can be found in the accompanying [post](https://sblog.kosobrodov.net).
 If you found this information useful please give this repository a star on GitHub.
