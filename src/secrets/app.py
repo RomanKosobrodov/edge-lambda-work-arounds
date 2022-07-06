@@ -2,16 +2,30 @@ import boto3
 import json
 import yaml
 
-client = boto3.client(service_name="secretsmanager",
-                      region_name="us-east-1")
+
+error = None                      
 try:
+    client = boto3.client(service_name="secretsmanager",
+                          region_name="us-east-1")
     response = client.get_secret_value(SecretId="edge-lambda-resources")
     resources = json.loads(response["SecretString"])
     bucket_name = resources["bucket"]
     
     s3 = boto3.resource("s3")
-    bucket = s3.Bucket(bucket_name)
-    
+    bucket = s3.Bucket(bucket_name)   
+    bucket.objects.all()  # check that listing objects is allowed
+except Exception as e:
+    error = e
+
+
+def handler(event, context): 
+    if error is not None:
+        return {
+                "status": "200",
+                "statusDescription": "OK",
+                "body": str(error)                
+                }
+        
     stats = list()
     total_size = 0
     for obj in bucket.objects.all():
@@ -24,19 +38,9 @@ try:
             "content" : stats,
             "total_size": total_size
         }
-except Exception as e:
-    data = {
-        "function": "secrets",
-        "error": e
-    }
 
-body = yaml.dump(data)
-
-
-def handler(event, context): 
     return {
             "status": "200",
             "statusDescription": "OK",
-            "body": body                
+            "body": yaml.dump(data)                
             }
-    
